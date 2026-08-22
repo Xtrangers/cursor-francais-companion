@@ -20,6 +20,8 @@ Cette page d’accueil reprend les deux fiches du projet. Les canvas Cursor (ouv
 - [canvases/cursor-francais-companion.canvas.tsx](canvases/cursor-francais-companion.canvas.tsx) — fiche produit
 - [canvases/plan-implementation.canvas.tsx](canvases/plan-implementation.canvas.tsx) — plan d’exécution (75 tâches)
 - [docs/disclaimer-fr.md](docs/disclaimer-fr.md) — mention légale
+- [RULES.md](RULES.md) — loi du projet (42 règles, mot `rulesList`)
+- [AGENT.md](AGENT.md) — contrat agent, stack, jalons
 
 ---
 
