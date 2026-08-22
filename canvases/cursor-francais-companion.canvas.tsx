@@ -386,13 +386,13 @@ function ArchitectureTab() {
       </Stack>
 
       <Stack gap={8}>
-        <H2>Pourquoi C# / WinUI plutôt qu’Electron</H2>
+        <H2>Pourquoi C# / WPF plutôt qu’Electron</H2>
         <Text>
           Cursor lui-même est une application desktop de la famille VS Code /
           Electron. Le compagnon, lui, doit parler nativement à Windows :
-          fenêtres, overlays, raccourcis globaux, UI Automation, capture
-          contrôlée. C# / .NET + WinUI 3 + Windows App SDK est plus léger et
-          plus propre pour ce rôle qu’un second runtime Electron.
+          menu modules, overlays, raccourcis globaux, UI Automation. C# /
+          .NET 10 + WPF pour le shell, Win32 + Direct2D pour l’overlay.
+          Plus tard : Skills, Projets, Agents dans le même menu.
         </Text>
         <Table
           headers={["Besoin", "Outil conseillé"]}
@@ -401,7 +401,7 @@ function ArchitectureTab() {
             ["Développement", "Cursor"],
             ["Assistance IA", "Grok 4.6 via Cursor"],
             ["Application Windows", "C# / .NET 8 LTS"],
-            ["Interface native", "WinUI 3 + Windows App SDK"],
+            ["Interface native", "WPF (.NET 10) + menu modules"],
             ["Automation Windows", "UI Automation"],
             ["OCR", "Windows OCR"],
             ["Base locale", "SQLite ou fichier local"],
@@ -517,7 +517,7 @@ function AskToBuildButton() {
           dispatch({
             type: "newComposerChat",
             userPrompt:
-              "Développer le MVP de Cursor Français Companion selon ce canvas : application Windows 11 C# / WinUI 3, détection de Cursor uniquement, dictionnaire local, UI Automation, overlay transparent, pas d’injection ni de modification des fichiers Cursor.",
+              "Développer le MVP de Cursor Français Companion : application Windows 11 C# / WPF avec menu (Traducteur actif, Skills/Projets/Agents bientôt), dictionnaire local, UI Automation, overlay Win32, pas d’injection ni de modification des fichiers Cursor.",
           })
         }
       >

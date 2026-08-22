@@ -12,13 +12,13 @@ Application Windows 11 indépendante : overlay de traduction locale pour l’int
 | Cible | Windows 11 |
 | Runtime | .NET 10 LTS + C# 13 |
 | Overlay | Win32 layered HWND + Direct2D (pas de XAML transparent) |
-| Shell | WinUI 3 + Windows App SDK 2.4 |
+| Shell | .NET 10 WPF — menu modules (Traducteur actif) |
 | Licence | MIT |
 
 Cette page d’accueil reprend les deux fiches du projet. Les canvas Cursor (ouverts dans l’IDE) sont aussi versionnés :
 
 - [canvases/cursor-francais-companion.canvas.tsx](canvases/cursor-francais-companion.canvas.tsx) — fiche produit
-- [canvases/plan-implementation.canvas.tsx](canvases/plan-implementation.canvas.tsx) — plan d’exécution (72 tâches)
+- [canvases/plan-implementation.canvas.tsx](canvases/plan-implementation.canvas.tsx) — plan d’exécution (75 tâches)
 - [docs/disclaimer-fr.md](docs/disclaimer-fr.md) — mention légale
 
 ---
@@ -72,7 +72,7 @@ Deux surfaces, **un seul processus**. Les clics restent ceux de Cursor.
 │  CursorFrancais.App.exe                     │
 │                                             │
 │  ┌──────────────┐  ┌─────────────────────┐  │
-│  │ WinUI 3      │  │ Overlay Win32 + D2D │  │
+│  │ WPF + menu   │  │ Overlay Win32 + D2D │  │
 │  │ Réglages     │  │ HWND layered        │  │
 │  │ Dictionnaire │  │ Labels FR           │  │
 │  │ Tray + hotkey│  │ Click-through       │  │
@@ -85,14 +85,14 @@ Deux surfaces, **un seul processus**. Les clics restent ceux de Cursor.
 └─────────────────────────────────────────────┘
 ```
 
-**Pourquoi pas un overlay WinUI XAML ?** WinUI compose via DirectComposition et ne gère pas proprement un HWND transparent click-through (`WS_EX_LAYERED`). L’overlay est donc une fenêtre Win32 layered, dessinée en Direct2D.
+**Pourquoi WPF pour le shell, pas pour l’overlay ?** WPF gère le menu modules (Traducteur, Skills, Projets, Agents) et le MVVM. L’overlay sur Cursor reste Win32 + Direct2D pour un click-through fiable. Au MVP, seul Traducteur est implémenté ; les autres entrées du menu affichent « Bientôt ».
 
 | Couche | Rôle |
 |---|---|
 | 1. Cursor.exe | Fenêtre native inchangée |
 | 2. Overlay D2D | Cartouches FR au-dessus des libellés EN. Click-through |
 | 3. Badge statut | « Traduction ON · N éléments », aussi click-through |
-| 4. Fenêtre compagnon | Accueil, dictionnaire, paramètres, journal |
+| 4. Fenêtre WPF | Menu modules + contenu (Traducteur seul actif au MVP) |
 | 5. Tray | Activer, désactiver, ouvrir, quitter |
 
 ### Cycle de rendu (150–250 ms si Cursor change)
@@ -153,8 +153,8 @@ Exclusions par défaut : code, noms de fichiers, commandes, saisie utilisateur, 
 |---|---|---|---|
 | Runtime | **.NET 10 LTS** (`net10.0-windows10.0.22621.0`) | Support jusqu’au 14 nov. 2028. .NET 8 expire le 10 nov. 2026 | .NET 8 / 9 en cible longue |
 | Langage | **C# 13**, nullable | Idiomatique .NET 10 | C++/WinRT sauf P/Invoke généré |
-| UI réglages | **WinUI 3 + Windows App SDK 2.4** | Look Windows 11. WinAppSDK 1.8 sort de maintenance le 9 sept. 2026 | Electron, WPF pour le shell |
-| UI overlay | **Win32 + Direct2D + DirectWrite** | Alpha et click-through fiables | Fenêtre WinUI XAML transparente |
+| UI shell | **WPF (.NET 10, UseWPF=true)** | Menu extensible, MVVM, pas de WinAppSDK | WinUI 3, Electron |
+| UI overlay | **Win32 + Direct2D + DirectWrite** | Alpha et click-through fiables | Overlay WPF sur Cursor |
 | Automation | **IUIAutomation via CsWin32** | API Windows, pas d’injection | FlaUI au runtime (OK en tests) |
 | OCR (MVP 2) | **Windows.Media.Ocr + Graphics Capture** | Local, HWND Cursor seulement | API cloud |
 | Données | **SQLite** + JSON seed | Hors ligne | Envoi réseau par défaut |
@@ -163,7 +163,7 @@ Exclusions par défaut : code, noms de fichiers, commandes, saisie utilisateur, 
 
 | Projet | Responsabilité |
 |---|---|
-| `src/CursorFrancais.App` | WinUI, tray, hotkey, cycle de vie |
+| `src/CursorFrancais.App` | WPF, menu modules, tray, hotkey |
 | `src/CursorFrancais.Core` | Dictionnaire, settings, exclusions |
 | `src/CursorFrancais.Automation` | Locator Cursor, UIA, filtres |
 | `src/CursorFrancais.Overlay` | HWND layered, D2D, layout |
@@ -176,7 +176,7 @@ Exclusions par défaut : code, noms de fichiers, commandes, saisie utilisateur, 
 
 ## 5. MCP, plugins et outillage Cursor
 
-Il n’existe **pas** de MCP WinUI / UI Automation / Direct2D. Le compagnon se développe en C# local.
+Il n’existe **pas** de MCP WPF / UI Automation / Direct2D. Le compagnon se développe en C# local.
 
 | Serveur MCP | Statut | Usage |
 |---|---|---|
@@ -188,7 +188,7 @@ Il n’existe **pas** de MCP WinUI / UI Automation / Direct2D. Le compagnon se d
 | `plugin-datadog-datadog` | Pas au MVP | Pas de télémétrie sans consentement |
 
 Extensions éditeur : `ms-dotnettools.csharp`.  
-Rules à créer en phase 0 : `no-injection`, `overlay-win32`, `csharp-winui`.
+Rules à créer en phase 0 : `no-injection`, `overlay-win32`, `csharp-wpf`.
 
 Un **plugin Cursor officiel** pourra plus tard porter le dictionnaire et des commandes. L’overlay Windows restera obligatoire pour modifier visuellement l’UI.
 
@@ -206,7 +206,20 @@ Un **plugin Cursor officiel** pourra plus tard porter le dictionnaire et des com
 
 ---
 
-## 7. Plan d’exécution — 72 tâches
+## Menu WPF (décision du 22 août 2026)
+
+Le compagnon n’est plus une fenêtre « traducteur seul ». C’est un **socle à modules** :
+
+| Entrée | MVP 1 | Plus tard |
+|---|---|---|
+| **Traducteur** | Actif | Overlay, dictionnaire, UIA, OCR |
+| **Skills** | Menu + écran Bientôt | Gérer les skills Cursor de l’utilisateur |
+| **Projets** | Menu + écran Bientôt | Profils de workspaces / presets |
+| **Agents** | Menu + écran Bientôt | Liste et presets d’agents |
+
+Contrat C# : `ICompanionModule` (`Id`, `Title`, `IsAvailable`, `CreateView()`). Ajouter une fonction = une classe + une vue, sans recoder `MainWindow`.
+
+## 7. Plan d’exécution — 75 tâches
 
 Ordre agent : **0 → 1 (dump UIA) → 2+3 → 4 → 5 → livrable portable → 6 OCR plus tard**.
 
@@ -214,10 +227,10 @@ Ordre agent : **0 → 1 (dump UIA) → 2+3 → 4 → 5 → livrable portable →
 
 | ID | Tâche | Livrable |
 |---|---|---|
-| P0-01 | Vérifier .NET 10 SDK, Windows 11 SDK, charge WinAppSDK | `dotnet --info` |
+| P0-01 | Vérifier .NET 10 SDK, Windows 11 SDK, templates WPF | `dotnet --info` |
 | P0-02 | Installer l’extension C# dans Cursor | Roslyn actif |
 | P0-03 | Créer la solution et les 7 projets | `CursorFrancais.slnx` compile |
-| P0-04 | NuGet : WinAppSDK 2.4, CsWin32, Sqlite, Toolkit, Serilog, xunit | restore OK |
+| P0-04 | NuGet : CommunityToolkit.Mvvm, NotifyIcon.Wpf, CsWin32, Sqlite, Serilog, xunit | restore OK |
 | P0-05 | `AGENTS.md` + 3 rules Cursor | `.cursor/rules` |
 | P0-06 | EditorConfig + `Directory.Build.props` | Build reproductible |
 | P0-07 | Git / remote GitHub | Repo versionné |
@@ -236,19 +249,24 @@ Ordre agent : **0 → 1 (dump UIA) → 2+3 → 4 → 5 → livrable portable →
 | P1-07 | Matrice traduisible / protégé / inaccessible | Base du filtre MVP 1 |
 | P1-08 | Go / no-go overlay UIA | Si UIA < 30 % des boutons → OCR plus tôt |
 
-### Phase 2 — Shell WinUI (9)
+### Phase 2 — Shell WPF + menu modules (14)
 
 | ID | Tâche | Critère de fin |
 |---|---|---|
-| P2-01 | `MainWindow` + NavigationView | 4 pages |
-| P2-02 | Accueil : statut, toggle, modes, zones | Toggle persisté |
-| P2-03 | Paramètres : opacité, taille, auto-hide, hotkey | JSON local |
-| P2-04 | Tray | Fermer la fenêtre laisse le tray |
-| P2-05 | Hotkey `Ctrl + Alt + F` | Toggle même si Cursor a le focus |
-| P2-06 | Démarrage auto (off par défaut) | Réversible |
-| P2-07 | Thème sombre Windows 11 | Pas de logo Cursor copié |
-| P2-08 | Bandeau « non affilié » | Toujours visible |
-| P2-09 | Maquettes Figma optionnelles | Sinon XAML direct |
+| P2-01 | `MainWindow` WPF : menu gauche + ContentControl | Chrome unique |
+| P2-02 | `ICompanionModule` + `ModuleRegistry` + `ShellViewModel` | Changer de module change la vue |
+| P2-03 | Menu : Traducteur, Skills, Projets, Agents | 4 entrées cliquables |
+| P2-04 | Traducteur actif ; les 3 autres → écran « Bientôt » | Pas de crash |
+| P2-05 | Accueil Traducteur : statut, toggle, modes, zones | Toggle persisté |
+| P2-06 | Sous-pages : Réglages, Dictionnaire, Journal | Menu gauche reste sur Traducteur |
+| P2-07 | Settings : opacité, taille, auto-hide, hotkey | JSON local |
+| P2-08 | Tray | Fermer la fenêtre laisse le tray |
+| P2-09 | Hotkey `Ctrl + Alt + F` | Toggle même si Cursor a le focus |
+| P2-10 | Démarrage auto (off par défaut) | Réversible |
+| P2-11 | Thème sombre WPF | Pas de logo Cursor copié |
+| P2-12 | Bandeau « non affilié » | Visible quel que soit le module |
+| P2-13 | Mémoriser le dernier module | Prêt pour la phase 8 |
+| P2-14 | Maquettes Figma optionnelles | Sinon XAML WPF direct |
 
 ### Phase 3 — Dictionnaire (9)
 
@@ -314,7 +332,18 @@ Ordre agent : **0 → 1 (dump UIA) → 2+3 → 4 → 5 → livrable portable →
 | P7-05 | GitHub Release + versions Cursor testées | Tag `v0.1.0` |
 | P7-06 | Signature Authenticode si certificat | Sinon warning SmartScreen documenté |
 
-**MVP 1 shippable = fin de P5 + P7-03/04.**
+### Phase 8 — Modules futurs, après le MVP traducteur (6)
+
+| ID | Tâche | Critère de fin |
+|---|---|---|
+| P8-01 | Skills : lister / activer / éditer les skills locaux | Sans injection dans Cursor |
+| P8-02 | Projets : profils de workspaces | Dernier dossier mémorisé |
+| P8-03 | Agents : liste et presets | Orchestration locale, pas de fork |
+| P8-04 | Isolation des settings par module | Un module cassé n’arrête pas le traducteur |
+| P8-05 | Badges menu Bientôt → Actif | Entrées déjà là depuis P2 |
+| P8-06 | Ne pas commencer P8 avant P5 + P7-03 | Traducteur d’abord |
+
+**MVP 1 shippable = fin de P5 + P7-03/04.** Skills / Projets / Agents = phase 8.
 
 ---
 
@@ -366,7 +395,7 @@ Ordre agent : **0 → 1 (dump UIA) → 2+3 → 4 → 5 → livrable portable →
 
 - [Plugins Cursor](https://cursor.com/docs/plugins) — règles, skills, agents, MCP ; pas l’UI native
 - [Forum Cursor](https://forum.cursor.com) — packs de langue vs composants propriétaires
-- [Windows App SDK — canaux](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/release-channels)
+- [WPF / .NET](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/)
 - [Support .NET](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core)
 
 ---

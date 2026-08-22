@@ -25,6 +25,7 @@ import {
 
 type TabId =
   | "ui"
+  | "menu"
   | "stack"
   | "mcp"
   | "code"
@@ -34,11 +35,12 @@ type TabId =
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "ui", label: "Fonctionnement UI" },
+  { id: "menu", label: "Menu WPF" },
   { id: "stack", label: "Technologies" },
   { id: "mcp", label: "MCP et plugins" },
   { id: "code", label: "Code et solution" },
   { id: "tasks-a", label: "Tâches 0 à 3" },
-  { id: "tasks-b", label: "Tâches 4 à 7" },
+  { id: "tasks-b", label: "Tâches 4 à 8" },
   { id: "tests", label: "Tests et livraison" },
 ];
 
@@ -55,17 +57,16 @@ export default function PlanImplementation() {
           </Pill>
         </Row>
         <Text tone="secondary">
-          Plan pas-à-pas pour développer Cursor Français Companion : stack
-          exacte, connecteurs MCP, type de code, fonctionnement de l’interface,
-          et toutes les tâches en tableaux. Source : dossier produit +
-          contraintes WinUI 3 overlay, 22 août 2026.
+          Plan pas-à-pas : shell .NET WPF avec menu modules, overlay Win32 +
+          Direct2D, connecteurs MCP, et toutes les tâches en tableaux. Décision
+          UI du 22 août 2026 : WPF extensible, pas WinUI.
         </Text>
       </Stack>
 
       <Grid columns={4} gap={12}>
-        <Stat value="72" label="Tâches planifiées" />
-        <Stat value="8" label="Phases" tone="info" />
-        <Stat value=".NET 10" label="Runtime LTS" tone="success" />
+        <Stat value="75" label="Tâches planifiées" />
+        <Stat value="9" label="Phases" tone="info" />
+        <Stat value="WPF" label="Shell .NET" tone="success" />
         <Stat value="Win32 D2D" label="Moteur overlay" tone="warning" />
       </Grid>
 
@@ -80,6 +81,7 @@ export default function PlanImplementation() {
       </Row>
 
       {tab === "ui" && <UiTab />}
+      {tab === "menu" && <MenuTab />}
       {tab === "stack" && <StackTab />}
       {tab === "mcp" && <McpTab />}
       {tab === "code" && <CodeTab />}
@@ -95,29 +97,30 @@ function UiTab() {
 
   return (
     <Stack gap={20}>
-      <Callout tone="warning" title="Décision UI critique">
-        L’écran de réglages est en WinUI 3. L’overlay de traduction n’est pas
-        en XAML WinUI. WinUI compose via DirectComposition et ne gère pas
-        proprement un HWND transparent click-through (WS_EX_LAYERED).
-        L’overlay est une fenêtre Win32 layered, dessinée en Direct2D, avec
-        les clics transmis à Cursor.
+      <Callout tone="success" title="Décision UI — WPF + overlay Win32">
+        Le compagnon (menu, modules, réglages) est en .NET WPF. L’overlay de
+        traduction reste une fenêtre Win32 layered + Direct2D, click-through,
+        pour ne pas bloquer Cursor. WPF n’est pas utilisé comme overlay
+        plein écran sur Cursor.
       </Callout>
 
       <H2>Deux surfaces, un seul processus</H2>
       <Grid columns={2} gap={12}>
         <Card>
-          <CardHeader trailing={<Pill size="sm" active>WinUI 3</Pill>}>
+          <CardHeader trailing={<Pill size="sm" active>WPF</Pill>}>
             Fenêtre compagnon
           </CardHeader>
           <CardBody>
             <Stack gap={6}>
               <Text>
-                Application Windows 11 classique : accueil, dictionnaire,
-                paramètres, journal. NavigationView, ToggleSwitch, sliders.
+                Shell WPF avec vrai menu à gauche : Traducteur, Skills,
+                Projets, Agents. Au MVP, seul Traducteur est implémenté.
+                Les autres entrées existent déjà et ouvrent un écran
+                « Bientôt ».
               </Text>
               <Text size="small" tone="secondary">
-                Reçoit les clics. Peut prendre le focus. Icône dans la zone
-                de notification. Raccourci Ctrl + Alt + F.
+                Reçoit les clics. Tray + raccourci Ctrl + Alt + F. MVVM
+                CommunityToolkit.
               </Text>
             </Stack>
           </CardBody>
@@ -164,8 +167,8 @@ function UiTab() {
             detail="Petite pastille « Traduction ON · 14 éléments », également click-through."
           />
           <LayerRow
-            label="4. Fenêtre compagnon"
-            detail="Hors de Cursor. Réglages, dictionnaire, journal. Visible à la demande."
+            label="4. Fenêtre WPF"
+            detail="Menu modules + contenu. Hors de Cursor. Visible à la demande."
           />
           <LayerRow
             label="5. Tray"
@@ -270,34 +273,44 @@ function UiTab() {
         ]}
       />
 
-      <H2>Écrans WinUI à coder</H2>
+      <H2>Écrans WPF à coder (module Traducteur)</H2>
       <Table
         headers={["Page XAML", "Contrôles", "État lié"]}
         striped
         rows={[
           [
-            "HomePage.xaml",
-            "InfoBar détection, ToggleSwitch, RadioButtons mode, CheckBoxes zones",
-            "AppState.IsEnabled, TranslationMode, ZoneFlags",
+            "MainWindow.xaml",
+            "Menu gauche (ListBox), ContentControl, barre de statut",
+            "ShellViewModel.SelectedModule",
           ],
           [
-            "SettingsPage.xaml",
-            "Slider opacité, Slider taille, CheckBox auto-hide, Hotkey recorder",
+            "TranslatorHomeView.xaml",
+            "Statut Cursor, Toggle, RadioButton modes, CheckBox zones",
+            "TranslatorViewModel",
+          ],
+          [
+            "TranslatorSettingsView.xaml",
+            "Slider opacité / taille, auto-hide, hotkey, confidentialité",
             "UiSettings",
           ],
           [
-            "DictionaryPage.xaml",
+            "DictionaryView.xaml",
             "ListView virtualisée, recherche, Ajouter / Importer / Exporter",
             "DictionaryStore",
           ],
           [
-            "LogPage.xaml",
-            "Liste des termes inconnus, compteur, bouton « proposer FR »",
+            "UnknownTermsView.xaml",
+            "Journal des termes inconnus",
             "UnknownTermLog",
           ],
           [
-            "TrayFlyout",
-            "Menu Flyout : Activer, Ouvrir, Quitter",
+            "ComingSoonView.xaml",
+            "Titre du module + texte « Disponible plus tard »",
+            "ICompanionModule.IsAvailable = false",
+          ],
+          [
+            "Tray menu",
+            "NotifyIcon : Activer, Ouvrir, Quitter",
             "AppState",
           ],
         ]}
@@ -339,6 +352,145 @@ function LayerRow({ label, detail }: { label: string; detail: string }) {
   );
 }
 
+function MenuTab() {
+  const theme = useHostTheme();
+
+  return (
+    <Stack gap={20}>
+      <Callout tone="info" title="Le compagnon n’est plus « seulement un traducteur »">
+        L’UI WPF est un socle à modules. Le menu permet de choisir la
+        fonction. Aujourd’hui seul Traducteur est branché. Skills, Projets
+        et Agents sont dans le menu dès le MVP, avec un écran « Bientôt »,
+        pour ne pas recoder la navigation plus tard.
+      </Callout>
+
+      <H2>Menu principal WPF</H2>
+      <div
+        style={{
+          border: `1px solid ${theme.stroke.primary}`,
+          background: theme.bg.elevated,
+        }}
+      >
+        <div
+          style={{
+            borderBottom: `1px solid ${theme.stroke.tertiary}`,
+            padding: "10px 14px",
+            background: theme.fill.tertiary,
+          }}
+        >
+          <Text weight="semibold">Cursor Français Companion</Text>
+        </div>
+        <Grid columns="180px 1fr" gap={0}>
+          <div
+            style={{
+              borderRight: `1px solid ${theme.stroke.tertiary}`,
+              padding: 12,
+            }}
+          >
+            <Stack gap={8}>
+              <Text size="small" tone="tertiary">
+                Fonctions
+              </Text>
+              <Text weight="semibold">Traducteur</Text>
+              <Text tone="secondary">Skills · bientôt</Text>
+              <Text tone="secondary">Projets · bientôt</Text>
+              <Text tone="secondary">Agents · bientôt</Text>
+              <Divider />
+              <Text size="small" tone="tertiary">
+                Module
+              </Text>
+              <Text>Réglages</Text>
+              <Text>Dictionnaire</Text>
+              <Text>Journal</Text>
+            </Stack>
+          </div>
+          <div style={{ padding: 16 }}>
+            <Stack gap={8}>
+              <H3>Traducteur</H3>
+              <Text>Cursor détecté · Version compatible</Text>
+              <Row>
+                <Pill active>ACTIVÉE</Pill>
+              </Row>
+              <Text size="small" tone="secondary">
+                Mode français · Menus, boutons, Agent/Chat
+              </Text>
+            </Stack>
+          </div>
+        </Grid>
+      </div>
+
+      <H2>Modules du menu</H2>
+      <Table
+        headers={["Entrée", "MVP 1", "Rôle plus tard", "Vue WPF"]}
+        striped
+        rowTone={["success", "warning", "warning", "warning"]}
+        rows={[
+          [
+            "Traducteur",
+            "Actif",
+            "Overlay, dictionnaire, UIA, OCR",
+            "TranslatorHomeView + sous-pages",
+          ],
+          [
+            "Skills",
+            "Menu visible, écran Bientôt",
+            "Lister, activer, éditer les skills Cursor du user",
+            "ComingSoonView puis SkillsView",
+          ],
+          [
+            "Projets",
+            "Menu visible, écran Bientôt",
+            "Profils de workspaces, chemins, presets compagnon",
+            "ComingSoonView puis ProjectsView",
+          ],
+          [
+            "Agents",
+            "Menu visible, écran Bientôt",
+            "Liste / lancement / presets d’agents Cursor",
+            "ComingSoonView puis AgentsView",
+          ],
+        ]}
+      />
+
+      <H2>Contrat ICompanionModule</H2>
+      <Table
+        headers={["Membre", "Type", "Règle"]}
+        rows={[
+          ["Id", "string", "translator | skills | projects | agents"],
+          ["Title", "string", "Libellé du menu, français"],
+          ["IsAvailable", "bool", "true seulement pour Traducteur au MVP"],
+          ["SortOrder", "int", "Ordre dans le menu"],
+          ["CreateView()", "UserControl", "Vue injectée dans le ContentControl"],
+          ["ComingSoonText", "string?", "Affiché si IsAvailable = false"],
+        ]}
+      />
+      <Text>
+        <Code>ModuleRegistry</Code> enregistre les 4 modules au démarrage.
+        <Code>ShellViewModel.SelectedModule</Code> change la vue. Ajouter
+        une fonction plus tard = une classe module + une vue, sans retoucher
+        le chrome de <Code>MainWindow</Code>.
+      </Text>
+
+      <H2>Sous-navigation du Traducteur</H2>
+      <Table
+        headers={["Sous-page", "Quand"]}
+        rows={[
+          ["Accueil", "Toggle, statut Cursor, modes, zones"],
+          ["Réglages", "Opacité, DPI, hotkey, confidentialité"],
+          ["Dictionnaire", "CRUD termes EN→FR"],
+          ["Journal", "Termes inconnus"],
+        ]}
+      />
+
+      <Callout tone="warning" title="Ne pas implémenter Skills / Projets / Agents maintenant">
+        Phase 8 seulement. Le menu et le contrat module se font en phase 2
+        pour réserver la place. Aucun appel API Cursor, aucun scan de
+        dossiers skills avant le traducteur stable.
+      </Callout>
+    </Stack>
+  );
+}
+
 function StartBuildButton() {
   const dispatch = useCanvasAction();
   return (
@@ -349,7 +501,7 @@ function StartBuildButton() {
           dispatch({
             type: "newComposerChat",
             userPrompt:
-              "Exécute le plan d’implémentation de Cursor Français Companion. Commence par la phase 0 (outillage + solution .NET 10 / WinAppSDK 2.x) puis la phase 1 (validation UIA de Cursor). Overlay = Win32 layered + Direct2D, pas de XAML transparent. Pas d’injection, pas de modification des fichiers Cursor.",
+              "Exécute le plan d’implémentation de Cursor Français Companion. Shell = .NET 10 WPF avec menu modules (Traducteur actif, Skills/Projets/Agents en Bientôt). Overlay = Win32 layered + Direct2D. Commence par la phase 0 puis la phase 1 (dump UIA). Pas d’injection, pas de modification des fichiers Cursor.",
           })
         }
       >
@@ -382,16 +534,16 @@ function StackTab() {
             "C++/WinRT sauf P/Invoke généré",
           ],
           [
-            "UI réglages",
-            "WinUI 3 + Windows App SDK 2.4 (canal Current)",
-            "Look Windows 11. WinAppSDK 1.8 sort de maintenance le 9 sept. 2026.",
-            "WPF/WinForms pour le shell, Electron",
+            "UI shell",
+            "WPF (.NET 10, UseWPF=true)",
+            "Menu modules extensible, MVVM mature, pas de WinAppSDK.",
+            "WinUI 3, Electron, WinForms",
           ],
           [
             "UI overlay",
             "Win32 layered HWND + Direct2D + DirectWrite",
             "Alpha par pixel et click-through fiables",
-            "Fenêtre WinUI XAML transparente",
+            "Overlay WPF AllowsTransparency sur Cursor",
           ],
           [
             "Automation",
@@ -414,13 +566,13 @@ function StackTab() {
         striped
         rows={[
           [
-            "Microsoft.WindowsAppSDK 2.4.x",
-            "WinUI, fenêtres, packaging runtime",
+            "CommunityToolkit.Mvvm",
+            "ObservableObject, RelayCommand, shell + modules",
             "App",
           ],
           [
-            "Microsoft.Windows.SDK.BuildTools",
-            "Build Win32 / MSIX",
+            "Hardcodet.NotifyIcon.Wpf",
+            "Icône zone de notification",
             "App",
           ],
           [
@@ -429,8 +581,8 @@ function StackTab() {
             "Overlay, Automation, Native",
           ],
           [
-            "CommunityToolkit.WinUI / Mvvm",
-            "ObservableObject, RelayCommand, tray helpers",
+            "Microsoft.Extensions.DependencyInjection",
+            "Registry de modules, host",
             "App",
           ],
           ["Microsoft.Data.Sqlite", "Dictionnaire et journal locaux", "Core"],
@@ -475,9 +627,9 @@ function StackTab() {
           [".NET 10 SDK", "Oui", "Compiler la solution"],
           ["Windows 11 SDK (10.0.22621+)", "Oui", "En-têtes Win32 / UIA"],
           [
-            "Charge de travail WinUI / Windows App SDK",
+            "Charge de travail développement Desktop (.NET / WPF)",
             "Oui",
-            "Build WinUI. Visual Studio 2022/2026 ou Build Tools suffisent.",
+            "dotnet new wpf. Visual Studio optionnel pour le designer XAML.",
           ],
           [
             "Extension C# dans Cursor (ms-dotnettools.csharp)",
@@ -505,7 +657,7 @@ function McpTab() {
   return (
     <Stack gap={20}>
       <Callout tone="info" title="Principe">
-        Il n’existe pas de MCP WinUI, UI Automation ou Direct2D. Le
+        Il n’existe pas de MCP WPF, UI Automation ou Direct2D. Le
         développement Windows se fait en local (dotnet, CsWin32, tests). Les
         MCP servent à bootstrapper le repo, versionner, et éventuellement
         maquetter le shell.
@@ -553,7 +705,7 @@ function McpTab() {
           [
             "plugin-playwright-playwright",
             "Ne pas utiliser",
-            "Navigateur web. Inutile pour WinUI / overlay HWND.",
+            "Navigateur web. Inutile pour WPF / overlay HWND.",
           ],
           [
             "plugin-datadog-datadog",
@@ -601,13 +753,13 @@ function McpTab() {
             ".cursor/rules/overlay-win32.mdc",
             "Rule glob Overlay/**",
             "Phase 0",
-            "Overlay = Win32+D2D, pas de Window WinUI transparente.",
+            "Overlay = Win32+D2D, pas d’overlay WPF sur Cursor.",
           ],
           [
-            ".cursor/rules/csharp-winui.mdc",
+            ".cursor/rules/csharp-wpf.mdc",
             "Rule glob **/*.{cs,xaml}",
             "Phase 0",
-            "Nullable, MVVM, pas de logique dans code-behind.",
+            "WPF MVVM, ICompanionModule, pas de logique dans code-behind.",
           ],
           [
             "AGENTS.md",
@@ -665,7 +817,7 @@ function McpTab() {
           [
             "0 Bootstrap",
             "cursor-app-control, GitHub, rules Cursor",
-            "dotnet new, SDK .NET 10, WinAppSDK",
+            "dotnet new wpf, SDK .NET 10",
           ],
           [
             "1 Validation",
@@ -673,9 +825,9 @@ function McpTab() {
             "Probe C# console UIA + notes DPI",
           ],
           [
-            "2 Shell WinUI",
+            "2 Shell WPF + menu",
             "Figma optionnel",
-            "XAML + CommunityToolkit.Mvvm",
+            "XAML WPF + ICompanionModule + CommunityToolkit.Mvvm",
           ],
           [
             "3 Dictionnaire",
@@ -713,16 +865,16 @@ function CodeTab() {
             "Code-behind gonflé, static god-objects",
           ],
           [
-            "C# WinUI views",
+            "C# WPF views / viewmodels",
             ".xaml.cs",
-            "App/Views",
+            "App/Views, App/Modules",
             "Logique métier, UIA, D2D",
           ],
           [
-            "XAML WinUI",
+            "XAML WPF",
             ".xaml",
-            "App/Views, App/Styles",
-            "Overlay, Canvas plein écran sur Cursor",
+            "App/Views, App/Modules, App/Styles",
+            "Overlay plein écran sur Cursor",
           ],
           [
             "CsWin32 native methods",
@@ -762,8 +914,8 @@ function CodeTab() {
         rows={[
           [
             "src/CursorFrancais.App",
-            "net10.0-windows10.0.22621.0",
-            "WinUI, tray, hotkey, cycle de vie, composition DI",
+            "net10.0-windows (UseWPF)",
+            "WPF, menu modules, tray, hotkey, DI",
           ],
           [
             "src/CursorFrancais.Core",
@@ -828,6 +980,11 @@ function CodeTab() {
             "Core",
           ],
           [
+            "interface ICompanionModule",
+            "Id, Title, IsAvailable, CreateView()",
+            "App",
+          ],
+          [
             "class AppState : ObservableObject",
             "IsEnabled, Mode, Zones, CursorStatus, UnknownCount",
             "App",
@@ -851,11 +1008,16 @@ function CodeTab() {
         striped
         rows={[
           ["CursorFrancais.slnx", "Solution .NET 10"],
-          ["src/CursorFrancais.App/App.xaml", "Application WinUI, ressources thème"],
-          ["src/CursorFrancais.App/MainWindow.xaml", "NavigationView"],
-          ["src/CursorFrancais.App/Views/HomePage.xaml", "Toggle + statut"],
-          ["src/CursorFrancais.App/ViewModels/*", "MVVM"],
-          ["src/CursorFrancais.App/Services/TranslationHost.cs", "Orchestre le loop"],
+          ["src/CursorFrancais.App/App.xaml", "Application WPF, ressources thème"],
+          ["src/CursorFrancais.App/MainWindow.xaml", "Menu gauche + ContentControl"],
+          ["src/CursorFrancais.App/Modules/ICompanionModule.cs", "Contrat des fonctions"],
+          ["src/CursorFrancais.App/Modules/TranslatorModule.cs", "Seul module actif au MVP"],
+          ["src/CursorFrancais.App/Modules/SkillsModule.cs", "IsAvailable = false"],
+          ["src/CursorFrancais.App/Modules/ProjectsModule.cs", "IsAvailable = false"],
+          ["src/CursorFrancais.App/Modules/AgentsModule.cs", "IsAvailable = false"],
+          ["src/CursorFrancais.App/Views/TranslatorHomeView.xaml", "Toggle + statut"],
+          ["src/CursorFrancais.App/ViewModels/ShellViewModel.cs", "Sélection du module"],
+          ["src/CursorFrancais.App/Services/TranslationHost.cs", "Orchestre le loop overlay"],
           ["src/CursorFrancais.Core/Dictionary/*", "Store SQLite + matcher"],
           ["src/CursorFrancais.Core/Data/seed-fr.json", "150–200 termes"],
           ["src/CursorFrancais.Automation/CursorLocator.cs", "Process + path check"],
@@ -873,13 +1035,13 @@ function CodeTab() {
       <Text>
         <Code>TranslationHost</Code> tourne sur un <Code>periodic Timer</Code>{" "}
         (et se réveille aussi sur WinEvent). Il n’ouvre aucun thread UI D2D
-        hors du thread overlay. WinUI reste sur le dispatcher XAML. Les deux
+        hors du thread overlay. WPF reste sur le dispatcher STA. Les deux
         threads communiquent par <Code>Channel&lt;OverlayFrame&gt;</Code>.
       </Text>
       <Table
         headers={["Thread", "Travail"]}
         rows={[
-          ["UI (WinUI)", "Pages, tray, binding AppState"],
+          ["UI (WPF STA)", "Menu, modules, tray, binding AppState"],
           ["Automation", "UIA + locator. Timeout 40 ms, abandon si Cursor occupé"],
           ["Overlay", "Message loop Win32 + Present D2D"],
           ["IO", "SQLite et logs, jamais sur UIA"],
@@ -899,7 +1061,7 @@ function TasksATab() {
       </Text>
       <BarChart
         categories={["0 Outillage", "1 Validation", "2 Shell", "3 Dictionnaire"]}
-        series={[{ name: "Tâches", data: [8, 8, 9, 9], tone: "info" }]}
+        series={[{ name: "Tâches", data: [8, 8, 14, 9], tone: "info" }]}
         height={180}
         showValues
       />
@@ -913,8 +1075,8 @@ function TasksATab() {
         rows={[
           [
             "P0-01",
-            "Vérifier .NET 10 SDK, Windows 11 SDK, charge WinAppSDK",
-            "Compte-rendu versions (dotnet --info)",
+            "Vérifier .NET 10 SDK, Windows 11 SDK, templates WPF",
+            "Compte-rendu versions (dotnet --info, dotnet new wpf)",
             "Shell local",
           ],
           [
@@ -931,13 +1093,13 @@ function TasksATab() {
           ],
           [
             "P0-04",
-            "Ajouter NuGet : WinAppSDK 2.4, CsWin32, Sqlite, Toolkit, Serilog, xunit",
+            "NuGet : CommunityToolkit.Mvvm, Hardcodet.NotifyIcon.Wpf, CsWin32, Sqlite, Serilog, xunit",
             "restore OK",
             "dotnet add package",
           ],
           [
             "P0-05",
-            "Écrire AGENTS.md + 3 rules Cursor (no-injection, overlay-win32, csharp-winui)",
+            "Écrire AGENTS.md + 3 rules (no-injection, overlay-win32, csharp-wpf)",
             "Fichiers .cursor/rules",
             "create-rule",
           ],
@@ -1019,7 +1181,7 @@ function TasksATab() {
         ]}
       />
 
-      <H2>Phase 2 — Shell WinUI (sans overlay)</H2>
+      <H2>Phase 2 — Shell WPF + menu modules (sans overlay)</H2>
       <Table
         headers={["ID", "Tâche", "Livrable", "Critère de fin"]}
         striped
@@ -1027,57 +1189,87 @@ function TasksATab() {
         rows={[
           [
             "P2-01",
-            "MainWindow + NavigationView (Accueil, Dictionnaire, Paramètres, Journal)",
-            "XAML navigable",
-            "4 pages s’ouvrent",
+            "MainWindow WPF : menu gauche + ContentControl + barre de statut",
+            "Chrome unique",
+            "Fenêtre redimensionnable, thème sombre",
           ],
           [
             "P2-02",
-            "HomePage : statut Cursor, Toggle Traduction, modes, zones",
-            "Bindé à AppState",
-            "Toggle persiste",
+            "ICompanionModule + ModuleRegistry + ShellViewModel",
+            "Contrat + DI",
+            "Changer de module change la vue, sans recréer MainWindow",
           ],
           [
             "P2-03",
-            "SettingsPage : opacité, taille, auto-hide, hotkey, confidentialité",
+            "Enregistrer Traducteur, Skills, Projets, Agents dans le menu",
+            "4 entrées visibles",
+            "Vrai menu cliquable, pas un écran unique",
+          ],
+          [
+            "P2-04",
+            "Traducteur.IsAvailable = true ; les 3 autres = false",
+            "ComingSoonView",
+            "Skills / Projets / Agents affichent « Bientôt » + description",
+          ],
+          [
+            "P2-05",
+            "TranslatorHomeView : statut Cursor, toggle, modes, zones",
+            "Bindé à TranslatorViewModel",
+            "Toggle persisté",
+          ],
+          [
+            "P2-06",
+            "Sous-pages Traducteur : Réglages, Dictionnaire, Journal",
+            "Navigation interne au module",
+            "Le menu gauche reste sur Traducteur",
+          ],
+          [
+            "P2-07",
+            "Settings : opacité, taille, auto-hide, hotkey, confidentialité",
             "UiSettings JSON local",
             "Reload conserve les valeurs",
           ],
           [
-            "P2-04",
-            "Tray : icône, flyout Activer / Ouvrir / Quitter",
-            "NotifyIcon",
+            "P2-08",
+            "Tray : icône, menu Activer / Ouvrir / Quitter",
+            "Hardcodet.NotifyIcon.Wpf",
             "Fermer la fenêtre laisse le tray",
           ],
           [
-            "P2-05",
+            "P2-09",
             "Hotkey global Ctrl + Alt + F (configurable)",
             "RegisterHotKey",
             "Toggle même si Cursor a le focus",
           ],
           [
-            "P2-06",
-            "Démarrage auto Windows (option, désactivé par défaut)",
-            "Raccourci Startup ou Task",
-            "Réversible depuis Settings",
+            "P2-10",
+            "Démarrage auto Windows (off par défaut)",
+            "Raccourci Startup",
+            "Réversible depuis Réglages",
           ],
           [
-            "P2-07",
-            "Thème sombre Windows 11, typo compacte",
+            "P2-11",
+            "Thème sombre WPF compact",
             "ResourceDictionary",
             "Pas de logo Cursor copié",
           ],
           [
-            "P2-08",
+            "P2-12",
             "Bandeau « Projet communautaire non affilié »",
-            "InfoBar permanente Accueil",
-            "Toujours visible",
+            "Toujours visible dans le shell",
+            "Présent quel que soit le module",
           ],
           [
-            "P2-09",
+            "P2-13",
+            "Mémoriser le dernier module (sera Traducteur au MVP)",
+            "Settings.LastModuleId",
+            "Prêt pour Skills / Projets / Agents",
+          ],
+          [
+            "P2-14",
             "Maquettes Figma optionnelles si tu le demandes",
             "Fichier Figma",
-            "Sinon XAML direct",
+            "Sinon XAML WPF direct",
           ],
         ]}
       />
@@ -1152,12 +1344,12 @@ function TasksBTab() {
   return (
     <Stack gap={20}>
       <Text>
-        Phases 4 à 7 = cœur produit puis durcissement. L’overlay (phase 5)
-        commence seulement si la phase 4 fournit des rectangles stables.
+        Phases 4 à 7 = cœur traducteur puis durcissement. Phase 8 = Skills /
+        Projets / Agents, seulement après le MVP traducteur.
       </Text>
       <BarChart
-        categories={["4 UIA", "5 Overlay", "6 OCR", "7 Qualité"]}
-        series={[{ name: "Tâches", data: [8, 10, 6, 6], tone: "info" }]}
+        categories={["4 UIA", "5 Overlay", "6 OCR", "7 Qualité", "8 Modules"]}
+        series={[{ name: "Tâches", data: [8, 10, 6, 6, 6], tone: "info" }]}
         height={180}
         showValues
       />
@@ -1387,6 +1579,51 @@ function TasksBTab() {
           ],
         ]}
       />
+
+      <H2>Phase 8 — Modules futurs (après MVP 1)</H2>
+      <Table
+        headers={["ID", "Tâche", "Livrable", "Critère de fin"]}
+        striped
+        rowTone={["warning", "warning", "warning", "info", "info", "neutral"]}
+        rows={[
+          [
+            "P8-01",
+            "Skills : lister / activer / éditer les skills Cursor locaux",
+            "SkillsView + SkillsModule.IsAvailable = true",
+            "Sans injection dans Cursor ; fichiers user seulement",
+          ],
+          [
+            "P8-02",
+            "Projets : profils de workspaces et presets compagnon",
+            "ProjectsView",
+            "Ouvrir un dossier / se souvenir du dernier",
+          ],
+          [
+            "P8-03",
+            "Agents : liste et presets d’agents (noms, règles, lancement)",
+            "AgentsView",
+            "Pas de fork de Cursor ; orchestration locale / docs",
+          ],
+          [
+            "P8-04",
+            "Isolation des settings par module",
+            "ModuleSettings store",
+            "Le traducteur ne casse pas si un module échoue",
+          ],
+          [
+            "P8-05",
+            "Badges menu : Bientôt → Actif",
+            "ShellViewModel",
+            "Entrées déjà présentes depuis P2-03",
+          ],
+          [
+            "P8-06",
+            "Ne pas commencer P8 avant P5 + P7-03",
+            "Garde-fou plan",
+            "Traducteur shippable d’abord",
+          ],
+        ]}
+      />
     </Stack>
   );
 }
@@ -1449,6 +1686,8 @@ function TestsTab() {
           ["Focus autre application", "Overlay masqué si option on"],
           ["Sleep / reprise", "Reprise propre, re-hook"],
           ["Mise à jour Cursor", "Pas de crash ; profil « unknown version »"],
+          ["Menu : clic Skills / Projets / Agents", "Écran Bientôt, pas de crash"],
+          ["Menu : retour Traducteur", "État toggle conservé"],
         ]}
       />
 
@@ -1459,7 +1698,7 @@ function TestsTab() {
           [
             "1",
             "Phase 0 complète jusqu’à sln qui build",
-            "SDK .NET 10 ou WinAppSDK manquant — te le dire",
+            "SDK .NET 10 ou template WPF manquant — te le dire",
           ],
           [
             "2",
@@ -1492,7 +1731,7 @@ function TestsTab() {
       <H2>Hors périmètre jusqu’au MVP 1</H2>
       <Table
         headers={["Interdit", "Raison"]}
-        rowTone={["danger", "danger", "danger", "danger", "warning", "warning"]}
+        rowTone={["danger", "danger", "danger", "danger", "warning", "warning", "warning"]}
         rows={[
           ["Injection JS / DLL dans Cursor.exe", "Instable, antivirus, ToS"],
           ["Patch des .asar / ressources", "Cassé à chaque update"],
@@ -1500,13 +1739,17 @@ function TestsTab() {
           ["Envoi de captures vers un LLM", "Confidentialité"],
           ["Plugin marketplace comme véhicule d’overlay", "Les plugins ne redessinent pas l’UI native"],
           ["Promettre 100 % de l’UI", "UIA partielle + UI dynamique"],
+          [
+            "Coder Skills / Projets / Agents avant le traducteur",
+            "Le menu réserve la place ; l’implémentation = phase 8",
+          ],
         ]}
       />
 
       <Callout tone="success" title="MVP 1 = fin de P5 + P7-03/04">
-        Détection Cursor, toggle, 150 termes, labels UIA en overlay
-        click-through, journal des inconnus, portable zip, disclaimer. OCR,
-        multi-langue et Store = plus tard.
+        Shell WPF avec menu à 4 entrées, Traducteur seul actif, overlay
+        click-through, 150 termes, journal, zip portable. Skills, Projets,
+        Agents = phase 8.
       </Callout>
 
       <StartBuildButton />
