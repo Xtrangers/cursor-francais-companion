@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P1-01 locator
+
+- `CursorPathRules` refuse VS Code / Code.exe.
+- `CursorLocator` liste les processus Cursor fiables + fenêtres UIA.
+
 ## 2026-08-22 — P0-08 CI
 
 - `.github/workflows/ci.yml` : restore, build, test sur windows-latest, SDK 10.0.302.
