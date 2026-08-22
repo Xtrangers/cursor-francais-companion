@@ -101,6 +101,7 @@ public sealed class CursorLocator
                 fenetres.Add(new CursorWindowInfo(
                     element.Current.Name ?? string.Empty,
                     element.Current.ClassName ?? string.Empty,
+                    element.Current.NativeWindowHandle,
                     (int)r.X,
                     (int)r.Y,
                     (int)r.Width,

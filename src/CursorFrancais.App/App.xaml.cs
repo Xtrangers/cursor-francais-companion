@@ -17,6 +17,7 @@ public partial class App : Application
 {
     private ServiceProvider? _services;
     private HotkeyService? _hotkey;
+    private TranslationCoordinator? _traduction;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -65,11 +66,14 @@ public partial class App : Application
             Dispatcher.Invoke(() => traducteur.BasculerTraductionCommand.Execute(null));
         traducteur.HotkeyChanged += (_, _) => _hotkey.Enregistrer(traducteur.Hotkey);
 
+        _traduction = _services.GetRequiredService<TranslationCoordinator>();
+        _traduction.Demarrer();
         fenetre.Show();
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
+        _traduction?.Dispose();
         _hotkey?.Dispose();
         _services?.Dispose();
         Log.CloseAndFlush();
@@ -97,6 +101,7 @@ public partial class App : Application
         services.AddSingleton<DictionaryViewModel>();
         services.AddSingleton<JournalViewModel>();
         services.AddSingleton<TranslatorViewModel>();
+        services.AddSingleton<TranslationCoordinator>();
         services.AddSingleton<ICompanionModule>(sp => new StaticModule(
             ModuleIds.Traducteur,
             "Traducteur",

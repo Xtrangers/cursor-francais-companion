@@ -3,20 +3,13 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
     <IsPackable>false</IsPackable>
-    <RootNamespace>CursorFrancais.Automation.Tests</RootNamespace>
+    <RootNamespace>CursorFrancais.Overlay.Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CursorFrancais.Automation\CursorFrancais.Automation.csproj" />
-    <ProjectReference Include="..\..\src\CursorFrancais.Core\CursorFrancais.Core.csproj" />
-    <None Update="Fixtures\chrome-sample.json" CopyToOutputDirectory="PreserveNewest" />
+    <ProjectReference Include="..\..\src\CursorFrancais.Overlay\CursorFrancais.Overlay.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="10.0.1">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="FluentAssertions" Version="8.10.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
     <PackageReference Include="xunit" Version="2.9.3" />

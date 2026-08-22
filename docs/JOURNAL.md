@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — Phases 4 et 5 overlay UIA
+
+- Filtre dumps figés, mapper DPI, tracker, N overlays.
+- HWND layered + Direct2D, pills, anti-collision, badge, auto-hide.
+
 ## 2026-08-22 — Phase 3 dictionnaire
 
 - SQLite local, seed ≥ 150 termes, normalizer, matcher, exclusions.

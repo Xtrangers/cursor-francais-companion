@@ -10,6 +10,7 @@ public sealed record CursorTarget(
 public sealed record CursorWindowInfo(
     string Titre,
     string Classe,
+    nint Hwnd,
     int Gauche,
     int Haut,
     int Largeur,

@@ -1,0 +1,101 @@
+[
+  {
+    "Nom": "File",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 20,
+    "Haut": 10,
+    "Largeur": 40,
+    "Hauteur": 24,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "New Chat",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 80,
+    "Haut": 10,
+    "Largeur": 70,
+    "Hauteur": 24,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "Hide Sidebar",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 160,
+    "Haut": 10,
+    "Largeur": 90,
+    "Hauteur": 24,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "Réduire",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 300,
+    "Haut": 8,
+    "Largeur": 32,
+    "Hauteur": 24,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "un très long titre de conversation personnelle à ne pas traduire",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 20,
+    "Haut": 80,
+    "Largeur": 200,
+    "Hauteur": 28,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "function main()",
+    "TypeControle": "Document",
+    "AutomationId": "",
+    "Classe": "monaco-editor",
+    "Gauche": 20,
+    "Haut": 200,
+    "Largeur": 400,
+    "Hauteur": 300,
+    "EstEditeur": true
+  },
+  {
+    "Nom": "gpt-4o",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 20,
+    "Haut": 40,
+    "Largeur": 50,
+    "Hauteur": 20,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "Branch main",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 80,
+    "Haut": 40,
+    "Largeur": 80,
+    "Hauteur": 20,
+    "EstEditeur": false
+  },
+  {
+    "Nom": "Add to Composer",
+    "TypeControle": "Button",
+    "AutomationId": "",
+    "Classe": "",
+    "Gauche": 200,
+    "Haut": 40,
+    "Largeur": 100,
+    "Hauteur": 20,
+    "EstEditeur": false
+  }
+]

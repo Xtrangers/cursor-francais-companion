@@ -10,4 +10,7 @@
     <ProjectReference Include="..\CursorFrancais.Core\CursorFrancais.Core.csproj" />
     <ProjectReference Include="..\CursorFrancais.Native\CursorFrancais.Native.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Vortice.Direct2D1" Version="3.6.2" />
+  </ItemGroup>
 </Project>

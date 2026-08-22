@@ -4,6 +4,28 @@ namespace CursorFrancais.Automation;
 
 public sealed class UiaReader
 {
+    public IReadOnlyList<UiElementHit> LireVisibles(nint hwnd, TimeSpan timeout, int limite = 800)
+    {
+        if (hwnd == 0)
+        {
+            return [];
+        }
+
+        try
+        {
+            var tache = Task.Run(() =>
+            {
+                var racine = AutomationElement.FromHandle(hwnd);
+                return racine is null ? [] : LireVisibles(racine, limite);
+            });
+            return tache.Wait(timeout) ? tache.Result : [];
+        }
+        catch (Exception)
+        {
+            return [];
+        }
+    }
+
     public IReadOnlyList<UiElementHit> LireVisibles(AutomationElement racine, int limite = 800)
     {
         var hits = new List<UiElementHit>();
