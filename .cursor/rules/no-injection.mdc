@@ -1,0 +1,13 @@
+---
+description: Interdit d'injecter du code dans Cursor ou de modifier ses fichiers.
+alwaysApply: true
+---
+
+# Pas d'injection Cursor
+
+- Ne jamais injecter JS, DLL ou hooks dans `Cursor.exe`.
+- Ne jamais modifier les `.asar`, ressources ou fichiers d'installation Cursor.
+- Ne jamais intercepter le réseau de Cursor.
+- Ne jamais décompiler Cursor.
+- Overlay = processus compagnon séparé (Win32 + Direct2D).
+- Lire l'UI uniquement via UI Automation ou OCR local de secours.

@@ -2,6 +2,10 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-05 rules techniques
+
+- `.cursor/rules/no-injection.mdc`, `overlay-win32.mdc`, `csharp-wpf.mdc`.
+
 ## 2026-08-22 — P0-04 NuGet
 
 - Mvvm, NotifyIcon, DI, Sqlite, Serilog, CsWin32, xunit.

@@ -1,0 +1,14 @@
+---
+description: L'overlay Cursor est Win32 + Direct2D, pas une fenêtre WPF transparente.
+globs: src/CursorFrancais.Overlay/**/*.cs
+alwaysApply: false
+---
+
+# Overlay Win32
+
+- L'overlay se dessine avec un HWND layered (`CreateWindowEx` + `UpdateLayeredWindow`).
+- Direct2D + DirectWrite pour le texte.
+- Styles : `WS_EX_LAYERED`, `WS_EX_TRANSPARENT`, `WS_EX_NOACTIVATE`, `WS_EX_TOOLWINDOW`.
+- Interdit : `Window` WPF avec `AllowsTransparency` collée sur Cursor.
+- Les clics doivent traverser et atteindre Cursor.
+- Un overlay par HWND Cursor. Détruire à la fermeture.

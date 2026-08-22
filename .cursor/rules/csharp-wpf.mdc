@@ -1,0 +1,15 @@
+---
+description: Conventions C# / WPF du compagnon.
+globs: **/*.{cs,xaml}
+alwaysApply: false
+---
+
+# C# / WPF
+
+- Nullable activé. Namespaces file-scoped.
+- MVVM : `CommunityToolkit.Mvvm`. Pas de logique métier dans le code-behind.
+- Modules via `ICompanionModule`. Au MVP, seul Traducteur est actif.
+- Skills, Projets, Agents : entrée de menu + écran Bientôt jusqu'à la phase 8.
+- Messages UI en français (règle 29). Tout interactif a un libellé (règle 18).
+- Écran nouveau : chargement, vide, erreur avec réessaie (règle 25).
+- Logique pure : tests co-localisés (règle 26).
