@@ -1,0 +1,32 @@
+<Window x:Class="CursorFrancais.App.Views.DisclaimerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Avertissement"
+        Width="520"
+        Height="360"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource BgBrush}"
+        AutomationProperties.Name="Avertissement non affilié">
+    <DockPanel Margin="24">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Refuser et quitter"
+                    Margin="0,0,8,0"
+                    Click="OnRefuser"
+                    AutomationProperties.Name="Refuser et quitter" />
+            <Button Style="{StaticResource AccentButton}"
+                    Content="J’ai compris"
+                    Click="OnAccepter"
+                    AutomationProperties.Name="J’ai compris" />
+        </StackPanel>
+        <StackPanel>
+            <TextBlock FontSize="20" FontWeight="SemiBold" Text="Projet communautaire" />
+            <TextBlock Margin="0,12,0,0" TextWrapping="Wrap"
+                       Text="Cursor Français Companion n’est pas affilié, pas approuvé et pas édité par Anysphere / Cursor." />
+            <TextBlock Margin="0,12,0,0" TextWrapping="Wrap"
+                       Text="Il ne modifie pas les fichiers internes de Cursor, n’injecte pas de code dans Cursor.exe et n’intercepte pas son réseau." />
+            <TextBlock Margin="0,12,0,0" Style="{StaticResource MutedText}" TextWrapping="Wrap"
+                       Text="La compatibilité n’est pas garantie après une mise à jour de Cursor. Les captures OCR éventuelles restent locales et ne sont pas conservées par défaut." />
+        </StackPanel>
+    </DockPanel>
+</Window>

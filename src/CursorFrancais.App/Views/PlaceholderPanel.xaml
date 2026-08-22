@@ -1,0 +1,16 @@
+<UserControl x:Class="CursorFrancais.App.Views.PlaceholderPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="{StaticResource PanelBrush}" CornerRadius="8" Padding="16">
+        <StackPanel>
+            <TextBlock FontWeight="SemiBold" Text="{Binding Titre}" />
+            <TextBlock Margin="0,8,0,0" Style="{StaticResource MutedText}" Text="{Binding Message}" />
+            <Button Margin="0,16,0,0"
+                    HorizontalAlignment="Left"
+                    Content="Réessayer"
+                    Command="{Binding ReessayerCommand}"
+                    Visibility="{Binding AfficherReessayer, Converter={StaticResource BoolToVis}}"
+                    AutomationProperties.Name="Réessayer" />
+        </StackPanel>
+    </Border>
+</UserControl>

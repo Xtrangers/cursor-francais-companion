@@ -2,6 +2,13 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — Phase 2 shell WPF
+
+- Menu 4 modules, Traducteur seul actif, écran Bientôt.
+- Accueil / Réglages / Dictionnaire / Journal, tray, hotkey, démarrage auto.
+- Bandeau non affilié + disclaimer premier lancement.
+- P2-14 : XAML direct, pas de Figma.
+
 ## 2026-08-22 — P1-03 à P1-08 constat UIA
 
 - Dump réel Cursor 3.16.17 : 468 éléments, 98 boutons, DPI 150 %.

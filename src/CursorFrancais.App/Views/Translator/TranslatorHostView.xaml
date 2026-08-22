@@ -1,0 +1,35 @@
+<UserControl x:Class="CursorFrancais.App.Views.Translator.TranslatorHostView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:accueil="clr-namespace:CursorFrancais.App.Views.Translator"
+             AutomationProperties.Name="Module traducteur">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+            <Button Content="Accueil"
+                    Margin="0,0,8,0"
+                    Command="{Binding AllerCommand}"
+                    CommandParameter="accueil"
+                    AutomationProperties.Name="Accueil du traducteur" />
+            <Button Content="Réglages"
+                    Margin="0,0,8,0"
+                    Command="{Binding AllerCommand}"
+                    CommandParameter="reglages"
+                    AutomationProperties.Name="Réglages du traducteur" />
+            <Button Content="Dictionnaire"
+                    Margin="0,0,8,0"
+                    Command="{Binding AllerCommand}"
+                    CommandParameter="dictionnaire"
+                    AutomationProperties.Name="Dictionnaire" />
+            <Button Content="Journal"
+                    Command="{Binding AllerCommand}"
+                    CommandParameter="journal"
+                    AutomationProperties.Name="Journal des inconnus" />
+        </StackPanel>
+        <Grid>
+            <accueil:TranslatorHomeView Visibility="{Binding Page, Converter={StaticResource PageVisibilityConverter}, ConverterParameter=accueil}" />
+            <accueil:TranslatorSettingsView Visibility="{Binding Page, Converter={StaticResource PageVisibilityConverter}, ConverterParameter=reglages}" />
+            <accueil:DictionaryView Visibility="{Binding Page, Converter={StaticResource PageVisibilityConverter}, ConverterParameter=dictionnaire}" />
+            <accueil:JournalView Visibility="{Binding Page, Converter={StaticResource PageVisibilityConverter}, ConverterParameter=journal}" />
+        </Grid>
+    </DockPanel>
+</UserControl>

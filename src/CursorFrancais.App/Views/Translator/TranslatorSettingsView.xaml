@@ -1,0 +1,58 @@
+<UserControl x:Class="CursorFrancais.App.Views.Translator.TranslatorSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AutomationProperties.Name="Réglages du traducteur">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock FontSize="20" FontWeight="SemiBold" Text="Réglages" />
+            <TextBlock x:Name="ErreurBloc"
+                       Margin="0,8,0,0"
+                       Foreground="{StaticResource DangerBrush}"
+                       Text="{Binding ErreurReglages}" />
+
+            <TextBlock Margin="0,16,0,4" Text="Opacité de l’overlay" />
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right"
+                           Width="48"
+                           Text="{Binding OverlayOpacityPercent, StringFormat={}{0:0} %}" />
+                <Slider Minimum="50"
+                        Maximum="100"
+                        SmallChange="5"
+                        Value="{Binding OverlayOpacityPercent}"
+                        AutomationProperties.Name="Opacité de l’overlay" />
+            </DockPanel>
+
+            <TextBlock Margin="0,16,0,4" Text="Taille des labels" />
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right"
+                           Width="48"
+                           Text="{Binding LabelFontSize, StringFormat={}{0:0} pt}" />
+                <Slider Minimum="10"
+                        Maximum="18"
+                        SmallChange="1"
+                        Value="{Binding LabelFontSize}"
+                        AutomationProperties.Name="Taille des labels" />
+            </DockPanel>
+
+            <CheckBox Content="Masquer l’overlay si Cursor n’a plus le focus"
+                      IsChecked="{Binding AutoHideWhenUnfocused}"
+                      AutomationProperties.Name="Masquer hors focus" />
+            <CheckBox Content="Démarrer avec Windows"
+                      IsChecked="{Binding StartWithWindows}"
+                      AutomationProperties.Name="Démarrer avec Windows" />
+            <CheckBox Content="Ne jamais enregistrer de capture (OCR)"
+                      IsChecked="{Binding NeverSaveCaptures}"
+                      AutomationProperties.Name="Ne jamais enregistrer de capture" />
+            <CheckBox Content="Activer l’OCR de secours (après le MVP)"
+                      IsChecked="{Binding OcrEnabled}"
+                      AutomationProperties.Name="Activer l’OCR de secours" />
+
+            <TextBlock Margin="0,16,0,4" Text="Raccourci global" />
+            <TextBox Text="{Binding Hotkey, UpdateSourceTrigger=LostFocus}"
+                     AutomationProperties.Name="Raccourci global" />
+            <TextBlock Margin="0,6,0,0"
+                       Style="{StaticResource MutedText}"
+                       Text="Par défaut Ctrl+Alt+F. Le raccourci fonctionne même si Cursor a le focus." />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
