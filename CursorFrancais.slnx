@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CursorFrancais.App/CursorFrancais.App.csproj" />
+    <Project Path="src/CursorFrancais.Automation/CursorFrancais.Automation.csproj" />
+    <Project Path="src/CursorFrancais.Core/CursorFrancais.Core.csproj" />
+    <Project Path="src/CursorFrancais.Native/CursorFrancais.Native.csproj" />
+    <Project Path="src/CursorFrancais.Ocr/CursorFrancais.Ocr.csproj" />
+    <Project Path="src/CursorFrancais.Overlay/CursorFrancais.Overlay.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CursorFrancais.Automation.Tests/CursorFrancais.Automation.Tests.csproj" />
+    <Project Path="tests/CursorFrancais.Core.Tests/CursorFrancais.Core.Tests.csproj" />
+  </Folder>
+</Solution>

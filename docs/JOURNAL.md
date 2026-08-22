@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-03 solution
+
+- `CursorFrancais.slnx` : App, Core, Automation, Overlay, Native, Ocr, 2 projets de tests.
+- `dotnet build` : 0 erreur, 0 avertissement.
+
 ## 2026-08-22 — P0-02 extension C#
 
 - Installé `anysphere.csharp` (marketplace Cursor).
