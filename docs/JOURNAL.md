@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-01 outillage
+
+- Pin SDK 10.0.302 via `global.json`.
+- Versions consignées dans `docs/environnement.md`.
+
 ## 2026-08-22 — fiche tâches
 
 - Ajout de `canvases/taches-developpement.canvas.tsx` : 75 tâches, 9 étapes, sous-étapes, statuts cliquables.
