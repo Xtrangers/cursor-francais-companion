@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-06 build props
+
+- `Directory.Build.props` (nullable, C# 13) et `.editorconfig`.
+- Build toujours 0 avertissement.
+
 ## 2026-08-22 — P0-05 rules techniques
 
 - `.cursor/rules/no-injection.mdc`, `overlay-win32.mdc`, `csharp-wpf.mdc`.
