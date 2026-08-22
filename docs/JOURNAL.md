@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-08 CI
+
+- `.github/workflows/ci.yml` : restore, build, test sur windows-latest, SDK 10.0.302.
+- Phase 0 terminée.
+
 ## 2026-08-22 — P0-07 gitignore
 
 - TestResults, nupkg, `.vscode` sauf `extensions.json`.
