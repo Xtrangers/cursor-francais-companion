@@ -2,6 +2,10 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P1-02 dump
+
+- Outil `tools/DumpCursorUi`. JSON brut ignoré par git (données personnelles).
+
 ## 2026-08-22 — P1-01 locator
 
 - `CursorPathRules` refuse VS Code / Code.exe.

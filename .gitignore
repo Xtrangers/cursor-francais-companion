@@ -17,6 +17,9 @@ TestResults/
 *.pdb
 project.lock.json
 
+# Dumps UIA bruts (titres de chats / projets)
+docs/dumps/*.json
+
 # App data
 *.db
 *.db-shm
