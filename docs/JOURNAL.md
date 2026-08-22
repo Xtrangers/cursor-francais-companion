@@ -2,6 +2,16 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — Phase 7 livraison
+
+- Matrice QA, budget perf, SmartScreen, NOTICE, notes v0.1.0 (brouillon).
+- Script zip portable. Pas de tag / release GitHub (jalon).
+
+## 2026-08-22 — Phase 6 OCR
+
+- Projet OCR branché : governor 2/s, filtre ROI, capture HWND, purge mémoire.
+- Capture via PrintWindow du HWND Cursor (pas d’autre fenêtre, 0 fichier).
+
 ## 2026-08-22 — Phases 4 et 5 overlay UIA
 
 - Filtre dumps figés, mapper DPI, tracker, N overlays.

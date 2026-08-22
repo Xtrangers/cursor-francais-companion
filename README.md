@@ -8,7 +8,7 @@ Application Windows 11 indépendante : overlay de traduction locale pour l’int
 
 | | |
 |---|---|
-| Statut | Fiches produit + plan d’implémentation (code à venir) |
+| Statut | MVP 1 en code (shell, dictionnaire, overlay). Release GitHub non publiée |
 | Cible | Windows 11 |
 | Runtime | .NET 10 LTS + C# 13 |
 | Overlay | Win32 layered HWND + Direct2D (pas de XAML transparent) |

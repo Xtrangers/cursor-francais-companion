@@ -3,6 +3,7 @@ using CursorFrancais.App.ViewModels;
 using CursorFrancais.Automation;
 using CursorFrancais.Core;
 using CursorFrancais.Native;
+using CursorFrancais.Ocr;
 using CursorFrancais.Overlay;
 
 namespace CursorFrancais.App.Services;
@@ -19,6 +20,7 @@ public sealed class TranslationCoordinator : IDisposable
     private readonly Dictionary<nint, FrameDiffer> _diffs = [];
     private readonly WindowTracker _tracker = new();
     private readonly DispatcherTimer _timer;
+    private readonly OcrGovernor _ocr = new();
     private int _dernierCompte;
 
     public TranslationCoordinator(
@@ -144,6 +146,12 @@ public sealed class TranslationCoordinator : IDisposable
             return 0;
         }
 
+        _ocr.Active = _reglages.OcrEnabled;
+        if (_ocr.PeutLancer(0))
+        {
+            _ = CompleterOcrAsync(fenetre.Hwnd, labels);
+        }
+
         var places = LabelLayout.Placer(labels, _reglages.LabelFontSize);
         var overlay = _host.Obtenir(fenetre.Hwnd);
         overlay.Afficher(true);
@@ -154,5 +162,29 @@ public sealed class TranslationCoordinator : IDisposable
             _reglages.OverlayOpacity,
             _reglages.LabelFontSize);
         return places.Count;
+    }
+
+    private async Task CompleterOcrAsync(nint hwnd, List<OverlayLabel> _)
+    {
+        try
+        {
+            using var cadre = await CursorFrameGrabber.CapturerAsync(hwnd, CancellationToken.None).ConfigureAwait(false);
+            if (cadre is null)
+            {
+                return;
+            }
+
+            var hits = await OcrEngineHost.LireAsync(cadre, CancellationToken.None).ConfigureAwait(false);
+            foreach (var hit in hits)
+            {
+                if (_moteur.Traduire(hit.Texte).Unknown)
+                {
+                    _store.NoterInconnu(hit.Texte, "Ocr");
+                }
+            }
+        }
+        catch (Exception)
+        {
+        }
     }
 }

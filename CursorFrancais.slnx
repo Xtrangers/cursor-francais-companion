@@ -10,6 +10,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/CursorFrancais.Automation.Tests/CursorFrancais.Automation.Tests.csproj" />
     <Project Path="tests/CursorFrancais.Core.Tests/CursorFrancais.Core.Tests.csproj" />
+    <Project Path="tests/CursorFrancais.Ocr.Tests/CursorFrancais.Ocr.Tests.csproj" />
     <Project Path="tests/CursorFrancais.Overlay.Tests/CursorFrancais.Overlay.Tests.csproj" />
   </Folder>
   <Folder Name="/tools/">
