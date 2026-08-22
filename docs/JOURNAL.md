@@ -4,6 +4,6 @@ Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
 ## 2026-08-22 — règles projet
 
-- Commit prévu : installation de la loi (`RULES.md`, `AGENT.md`, `.cursor/rules/00-loi-projet.mdc`, `docs/MEMOIRE.md`).
-- Base : `0a28f5a` (shell WPF + menu modules dans le plan).
-- Pas de jalon produit. Pas de mise en ligne demandée.
+- Commit : `083e2d2` — loi du projet (`RULES.md`, `AGENT.md`, `.cursor/rules/00-loi-projet.mdc`, `docs/MEMOIRE.md`).
+- Base précédente : `0a28f5a` (shell WPF + menu modules dans le plan).
+- Pas de jalon produit. Pas de push (règle 30).
