@@ -2,12 +2,56 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              AutomationProperties.Name="Dictionnaire">
-    <DockPanel>
+    <DockPanel DataContext="{Binding Dictionnaire}">
         <TextBlock DockPanel.Dock="Top" FontSize="20" FontWeight="SemiBold" Text="Dictionnaire" />
         <TextBlock DockPanel.Dock="Top"
                    Margin="0,8,0,12"
                    Style="{StaticResource MutedText}"
                    Text="Termes locaux EN → FR. Rien n’est envoyé sur Internet." />
-        <ContentControl Content="{Binding Dictionnaire}" />
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+            <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="Catégorie" />
+            <ComboBox Width="140"
+                      ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding FiltreCategorie}"
+                      AutomationProperties.Name="Filtrer par catégorie" />
+            <Button Margin="12,0,0,0" Content="Importer" Command="{Binding ImporterCommand}"
+                    AutomationProperties.Name="Importer un JSON" />
+            <Button Margin="8,0,0,0" Content="Exporter" Command="{Binding ExporterCommand}"
+                    AutomationProperties.Name="Exporter le JSON" />
+            <Button Margin="8,0,0,0" Content="Réessayer" Command="{Binding ChargerCommand}"
+                    AutomationProperties.Name="Recharger le dictionnaire" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+            <TextBox Width="180" Margin="0,0,8,0" Text="{Binding NouveauEn, UpdateSourceTrigger=PropertyChanged}"
+                     AutomationProperties.Name="Terme anglais" />
+            <TextBox Width="180" Margin="0,0,8,0" Text="{Binding NouveauFr, UpdateSourceTrigger=PropertyChanged}"
+                     AutomationProperties.Name="Traduction française" />
+            <ComboBox Width="120" Margin="0,0,8,0"
+                      ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding NouvelleCategorie}"
+                      AutomationProperties.Name="Catégorie du nouveau terme" />
+            <Button Content="Ajouter" Command="{Binding AjouterCommand}"
+                    AutomationProperties.Name="Ajouter le terme" />
+            <Button Margin="8,0,0,0" Content="Supprimer" Command="{Binding SupprimerCommand}"
+                    AutomationProperties.Name="Supprimer le terme sélectionné" />
+        </StackPanel>
+
+        <ContentControl DockPanel.Dock="Top" Margin="0,0,0,12"
+                        Content="{Binding Etat}"
+                        Visibility="{Binding Etat.AfficherReessayer, Converter={StaticResource BoolToVis}}" />
+
+        <ListView ItemsSource="{Binding Entrees}"
+                  SelectedItem="{Binding Selection}"
+                  AutomationProperties.Name="Liste des termes">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Anglais" Width="200" DisplayMemberBinding="{Binding Source}" />
+                    <GridViewColumn Header="Français" Width="220" DisplayMemberBinding="{Binding Translation}" />
+                    <GridViewColumn Header="Catégorie" Width="120" DisplayMemberBinding="{Binding Category}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </DockPanel>
 </UserControl>

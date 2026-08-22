@@ -2,12 +2,30 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              AutomationProperties.Name="Journal des termes inconnus">
-    <DockPanel>
+    <DockPanel DataContext="{Binding Journal}">
         <TextBlock DockPanel.Dock="Top" FontSize="20" FontWeight="SemiBold" Text="Journal" />
         <TextBlock DockPanel.Dock="Top"
-                   Margin="0,8,0,12"
+                   Margin="0,8,0,8"
                    Style="{StaticResource MutedText}"
                    Text="Textes vus à l’écran sans entrée dans le dictionnaire." />
-        <ContentControl Content="{Binding Journal}" />
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+            <Button DockPanel.Dock="Right"
+                    Content="Réessayer"
+                    Command="{Binding ChargerCommand}"
+                    AutomationProperties.Name="Recharger le journal" />
+            <TextBlock VerticalAlignment="Center"
+                       Text="{Binding Total, StringFormat=Occurrences : {0}}" />
+        </DockPanel>
+        <ContentControl DockPanel.Dock="Top" Margin="0,0,0,12" Content="{Binding Etat}" />
+        <ListView ItemsSource="{Binding Termes}" AutomationProperties.Name="Termes inconnus">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Texte" Width="240" DisplayMemberBinding="{Binding Sample}" />
+                    <GridViewColumn Header="Zone" Width="100" DisplayMemberBinding="{Binding Zone}" />
+                    <GridViewColumn Header="Fois" Width="60" DisplayMemberBinding="{Binding Count}" />
+                    <GridViewColumn Header="Vu" Width="180" DisplayMemberBinding="{Binding LastSeen}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </DockPanel>
 </UserControl>

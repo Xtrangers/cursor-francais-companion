@@ -17,26 +17,22 @@ public sealed partial class TranslatorViewModel : ObservableObject
         UiSettings reglages,
         UiSettingsStore store,
         CursorStatusService statut,
-        StartupShortcut demarrage)
+        StartupShortcut demarrage,
+        DictionaryViewModel dictionnaire,
+        JournalViewModel journal)
     {
         Reglages = reglages;
         _store = store;
         Statut = statut;
         _demarrage = demarrage;
         reglages.StartWithWindows = demarrage.EstPresent;
-        Dictionnaire = new PageStateViewModel();
-        Dictionnaire.Vide(
-            "Dictionnaire vide",
-            "Aucun terme chargé pour l’instant. Le moteur local les importera au prochain démarrage.");
-        Journal = new PageStateViewModel();
-        Journal.Vide(
-            "Journal vide",
-            "Aucun texte inconnu pour l’instant. Activez la traduction lorsque Cursor est ouvert.");
+        Dictionnaire = dictionnaire;
+        Journal = journal;
     }
 
-    public PageStateViewModel Dictionnaire { get; }
+    public DictionaryViewModel Dictionnaire { get; }
 
-    public PageStateViewModel Journal { get; }
+    public JournalViewModel Journal { get; }
 
     public UiSettings Reglages { get; }
 

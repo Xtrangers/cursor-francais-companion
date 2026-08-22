@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — Phase 3 dictionnaire
+
+- SQLite local, seed ≥ 150 termes, normalizer, matcher, exclusions.
+- CRUD + import/export, journal des inconnus, skill `ajouter-terme`.
+
 ## 2026-08-22 — Phase 2 shell WPF
 
 - Menu 4 modules, Traducteur seul actif, écran Bientôt.

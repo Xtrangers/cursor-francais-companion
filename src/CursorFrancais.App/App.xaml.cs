@@ -85,6 +85,17 @@ public partial class App : Application
         services.AddSingleton<CursorStatusService>();
         services.AddSingleton<StartupShortcut>();
         services.AddSingleton<HotkeyService>();
+        services.AddSingleton<DictionaryStore>();
+        services.AddSingleton<DictionaryEngine>(sp =>
+        {
+            var store = sp.GetRequiredService<DictionaryStore>();
+            SeedImporter.AppliquerSiBesoin(store);
+            var moteur = new DictionaryEngine();
+            moteur.Remplacer(store.Lister());
+            return moteur;
+        });
+        services.AddSingleton<DictionaryViewModel>();
+        services.AddSingleton<JournalViewModel>();
         services.AddSingleton<TranslatorViewModel>();
         services.AddSingleton<ICompanionModule>(sp => new StaticModule(
             ModuleIds.Traducteur,
