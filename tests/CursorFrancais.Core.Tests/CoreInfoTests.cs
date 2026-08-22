@@ -1,14 +1,14 @@
 using CursorFrancais.Core;
+using FluentAssertions;
+using Xunit;
 
 namespace CursorFrancais.Core.Tests;
 
 public class CoreInfoTests
 {
+    [Fact]
     public void NomProduit_est_renseigne()
     {
-        if (string.IsNullOrWhiteSpace(CoreInfo.NomProduit))
-        {
-            throw new InvalidOperationException("Le nom du produit est vide.");
-        }
+        CoreInfo.NomProduit.Should().NotBeNullOrWhiteSpace();
     }
 }

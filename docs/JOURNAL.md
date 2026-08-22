@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-04 NuGet
+
+- Mvvm, NotifyIcon, DI, Sqlite, Serilog, CsWin32, xunit.
+- `dotnet test` : 2 réussites, 0 échec.
+
 ## 2026-08-22 — P0-03 solution
 
 - `CursorFrancais.slnx` : App, Core, Automation, Overlay, Native, Ocr, 2 projets de tests.
