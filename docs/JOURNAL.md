@@ -2,6 +2,12 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P1-03 à P1-08 constat UIA
+
+- Dump réel Cursor 3.16.17 : 468 éléments, 98 boutons, DPI 150 %.
+- Go overlay UIA. Jalon : attendre Rémi avant phase 2.
+- JSON brut non commité (titres de chats).
+
 ## 2026-08-22 — P1-02 dump
 
 - Outil `tools/DumpCursorUi`. JSON brut ignoré par git (données personnelles).
