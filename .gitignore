@@ -7,6 +7,9 @@ obj/
 artifacts/
 [Dd]ebug/
 [Rr]elease/
+TestResults/
+*.nupkg
+*.binlog
 
 # .NET
 *.dll
@@ -32,3 +35,5 @@ secrets.json
 Thumbs.db
 .idea/
 *.swp
+.vscode/*
+!.vscode/extensions.json

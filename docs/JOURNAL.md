@@ -2,6 +2,10 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-07 gitignore
+
+- TestResults, nupkg, `.vscode` sauf `extensions.json`.
+
 ## 2026-08-22 — P0-06 build props
 
 - `Directory.Build.props` (nullable, C# 13) et `.editorconfig`.
