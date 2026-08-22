@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — P0-02 extension C#
+
+- Installé `anysphere.csharp` (marketplace Cursor).
+- Recommandation dans `.vscode/extensions.json`.
+
 ## 2026-08-22 — P0-01 outillage
 
 - Pin SDK 10.0.302 via `global.json`.

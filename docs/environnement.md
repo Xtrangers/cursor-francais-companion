@@ -14,3 +14,5 @@ Date : 2026-08-22. Commandes réelles, pas une supposition.
 | Cursor | 3.16.17, `Cursor.exe` sous `%LocalAppData%\Programs\cursor` |
 
 Probe WPF : `dotnet new wpf` dans un dossier temp, `dotnet build` réussi.
+
+Extension C# Cursor : `anysphere.csharp` v1.0.1 (le marketplace Cursor n’expose pas `ms-dotnettools.csharp`). Recommandée dans `.vscode/extensions.json`.
