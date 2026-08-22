@@ -2,6 +2,11 @@
 
 Chaque entrée : date UTC, hash git, ce qui change. Règle 6.
 
+## 2026-08-22 — fiche tâches
+
+- Ajout de `canvases/taches-developpement.canvas.tsx` : 75 tâches, 9 étapes, sous-étapes, statuts cliquables.
+- Pas de jalon. Pas de push.
+
 ## 2026-08-22 — règles projet
 
 - Commit : `083e2d2` — loi du projet (`RULES.md`, `AGENT.md`, `.cursor/rules/00-loi-projet.mdc`, `docs/MEMOIRE.md`).

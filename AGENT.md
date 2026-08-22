@@ -39,6 +39,7 @@ Référence produit et plan : canvas Cursor + `README.md` GitHub. Ne les relire 
 
 - `canvases/cursor-francais-companion.canvas.tsx`
 - `canvases/plan-implementation.canvas.tsx`
+- `canvases/taches-developpement.canvas.tsx` — suivi des 75 tâches
 
 ## Jalons — s'arrêter et attendre Rémi
 
